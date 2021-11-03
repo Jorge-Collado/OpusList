@@ -7,11 +7,14 @@ package gallery;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  *
@@ -20,11 +23,22 @@ import javax.swing.DefaultListModel;
 public class MainForm extends javax.swing.JFrame {
 private static final java.lang.reflect.Type LIST_OF_OBRA_TYPE = new TypeToken<List<Obra>>() {}.getType();
 ArrayList<Obra> obras = new ArrayList();
+String[] obraSplitted;
+private JList<Obra> lstImages;
+
     /**
      * Creates new form MainForm
      */
     public MainForm() {
         initComponents();
+        lstImages = new JList();
+        jScrollPane1.setViewportView(lstImages);
+        lstImages.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstImagesValueChanged(evt);
+            }
+        });
+
     }
 
     /**
@@ -37,7 +51,13 @@ ArrayList<Obra> obras = new ArrayList();
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstImages = new javax.swing.JList<>();
+        mnuMainForm = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        mniCreate = new javax.swing.JMenuItem();
+        mniReview = new javax.swing.JMenuItem();
+        mniUpdate = new javax.swing.JMenuItem();
+        mniDelete = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -46,55 +66,56 @@ ArrayList<Obra> obras = new ArrayList();
             }
         });
 
-        lstImages.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        lstImages.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lstImagesMouseClicked(evt);
-            }
-        });
-        lstImages.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstImagesValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(lstImages);
+        jMenu1.setText("CRUD");
+
+        mniCreate.setText("Create");
+        jMenu1.add(mniCreate);
+
+        mniReview.setText("Review");
+        jMenu1.add(mniReview);
+
+        mniUpdate.setText("Update");
+        jMenu1.add(mniUpdate);
+
+        mniDelete.setText("Delete");
+        jMenu1.add(mniDelete);
+
+        mnuMainForm.add(jMenu1);
+
+        jMenu2.setText("Save");
+        mnuMainForm.add(jMenu2);
+
+        setJMenuBar(mnuMainForm);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(179, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lstImagesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstImagesValueChanged
-
-    }//GEN-LAST:event_lstImagesValueChanged
-
+    
     private void windowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpened
        Gson gson = new Gson();
-       DefaultListModel<String> obrasListModel = new DefaultListModel<String>();
+       DefaultListModel<Obra> obrasListModel = new DefaultListModel<Obra>();
         try {
             JsonReader reader = new JsonReader(new FileReader(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\data\\obres.json"));
-            ArrayList<Obra> obras = gson.fromJson(reader, LIST_OF_OBRA_TYPE);
+            obras = gson.fromJson(reader, LIST_OF_OBRA_TYPE);
             for (Obra o: obras) {
-                obrasListModel.addElement(o.toString());
+                obrasListModel.addElement(o);
             }
             lstImages.setModel(obrasListModel);
         }
@@ -105,13 +126,14 @@ ArrayList<Obra> obras = new ArrayList();
        
     }//GEN-LAST:event_windowOpened
 
-    private void lstImagesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstImagesMouseClicked
-        if(evt.getClickCount() == 2){
-            ViewImage viewImage = new ViewImage(this, true);
-            viewImage.setVisible(true);
-        }
-    }//GEN-LAST:event_lstImagesMouseClicked
-
+    private void lstImagesValueChanged(javax.swing.event.ListSelectionEvent evt){
+        
+    }
+    
+    private void lstImagesMouseListener(javax.swing.event.MouseInputListener evt){
+       
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -147,8 +169,15 @@ ArrayList<Obra> obras = new ArrayList();
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> lstImages;
+    private javax.swing.JMenuItem mniCreate;
+    private javax.swing.JMenuItem mniDelete;
+    private javax.swing.JMenuItem mniReview;
+    private javax.swing.JMenuItem mniUpdate;
+    private javax.swing.JMenuBar mnuMainForm;
     // End of variables declaration//GEN-END:variables
 }
