@@ -101,9 +101,6 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lblImage">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtRegistre">
       <Properties>
@@ -160,7 +157,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnSaveChanges">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar los cambios"/>
+        <Property name="text" type="java.lang.String" value="Guardar y salir"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveChangesActionPerformed"/>

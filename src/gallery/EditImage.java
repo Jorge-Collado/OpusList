@@ -4,6 +4,7 @@
  */
 package gallery;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -55,8 +56,6 @@ private final MainForm mainForm = (MainForm) this.getParent();
             }
         });
 
-        lblImage.setText("jLabel1");
-
         txtRegistre.setText("jTextField1");
         txtRegistre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,7 +81,7 @@ private final MainForm mainForm = (MainForm) this.getParent();
 
         lblFormat.setText("Formato");
 
-        btnSaveChanges.setText("Guardar los cambios");
+        btnSaveChanges.setText("Guardar y salir");
         btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveChangesActionPerformed(evt);
@@ -170,8 +169,7 @@ private final MainForm mainForm = (MainForm) this.getParent();
                 txtFormat.setText(o.getFormat());
                 txtAutor.setText(o.getAutor());
                 BufferedImage bf = ImageIO.read(new File(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\" + o.getImatge()));
-                ImageIcon icon = new ImageIcon(bf);
-                lblImage.setIcon(icon);
+                lblImage.setIcon(resizeImageIcon(bf, lblImage.getWidth(), lblImage.getHeight()));
                 
             }
         }
@@ -182,6 +180,26 @@ private final MainForm mainForm = (MainForm) this.getParent();
         
     }//GEN-LAST:event_windowOpened
 
+     private ImageIcon resizeImageIcon (BufferedImage originalImage, int desiredWidth, int desiredHeight) {
+        int newHeight = 0;    
+        int newWidth = 0;
+        float aspectRatio = (float)originalImage.getWidth() / originalImage.getHeight();
+        if (originalImage.getWidth() > originalImage.getHeight()) {
+            newWidth = desiredWidth;
+            newHeight = Math.round( desiredWidth / aspectRatio);                
+        }
+        else {
+            newHeight = desiredHeight;
+            newWidth = Math.round(desiredHeight * aspectRatio);
+        }
+        Image resultingImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        BufferedImage outputImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+        ImageIcon imageIcon = new ImageIcon(outputImage);
+        return imageIcon;
+    }
+    
+    
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
         mainForm.lstImages.getSelectedValue().setRegistre(txtRegistre.getText());
         mainForm.lstImages.getSelectedValue().setTitol(txtTitulo.getText());

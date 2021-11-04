@@ -4,6 +4,7 @@
  */
 package gallery;
 
+import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
@@ -94,6 +95,11 @@ private final MainForm mainForm = (MainForm) this.getParent();
         mainForm.obrasListModel.clear();
         
         Obra o = (Obra) cmbObras.getSelectedItem();
+        
+        File deletedImage = new File(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\" + o.getImatge());
+        
+        deletedImage.delete();
+        
         mainForm.obras.remove(o);
         
         for (Obra ob : mainForm.obras) {

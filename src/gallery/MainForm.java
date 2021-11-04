@@ -5,6 +5,7 @@
 package gallery;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import java.awt.event.MouseAdapter;
@@ -12,6 +13,9 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -24,7 +28,7 @@ import javax.swing.UIManager;
  */
 public class MainForm extends javax.swing.JFrame {
 private static final java.lang.reflect.Type LIST_OF_OBRA_TYPE = new TypeToken<List<Obra>>() {}.getType();
-ArrayList<Obra> obras = new ArrayList();
+public ArrayList<Obra> obras = new ArrayList(); //Las tres variables declaradas aqui son las que usare entre forms 
 public JList<Obra> lstImages;
 public DefaultListModel<Obra> obrasListModel;
 
@@ -34,6 +38,7 @@ public DefaultListModel<Obra> obrasListModel;
      */
     public MainForm() {
         initComponents();
+        //Inicializo la lista de obras en un scrollpanel y le añado listener de el item seleccionado y del raton
         lstImages = new JList();
         jScrollPane1.setViewportView(lstImages);
         lstImages.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -61,13 +66,15 @@ public DefaultListModel<Obra> obrasListModel;
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         mnuMainForm = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mniCreate = new javax.swing.JMenuItem();
-        mniReview = new javax.swing.JMenuItem();
         mniUpdate = new javax.swing.JMenuItem();
         mniDelete = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        mniSave = new javax.swing.JMenuItem();
+        mniSaveAndExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -75,6 +82,12 @@ public DefaultListModel<Obra> obrasListModel;
                 MainForm.this.windowOpened(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Frank Ruehl CLM", 2, 36)); // NOI18N
+        jLabel1.setText("Jorge's Gallery");
+
+        jLabel2.setFont(new java.awt.Font("Frank Ruehl CLM", 2, 36)); // NOI18N
+        jLabel2.setText("Welcome to");
 
         jMenu1.setText("CRUD");
 
@@ -85,9 +98,6 @@ public DefaultListModel<Obra> obrasListModel;
             }
         });
         jMenu1.add(mniCreate);
-
-        mniReview.setText("Review");
-        jMenu1.add(mniReview);
 
         mniUpdate.setText("Update");
         mniUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -105,10 +115,23 @@ public DefaultListModel<Obra> obrasListModel;
         });
         jMenu1.add(mniDelete);
 
-        mnuMainForm.add(jMenu1);
+        mniSave.setText("Save");
+        mniSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniSaveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mniSave);
 
-        jMenu2.setText("Save");
-        mnuMainForm.add(jMenu2);
+        mniSaveAndExit.setText("Save & Quit");
+        mniSaveAndExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniSaveAndExitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mniSaveAndExit);
+
+        mnuMainForm.add(jMenu1);
 
         setJMenuBar(mnuMainForm);
 
@@ -120,12 +143,22 @@ public DefaultListModel<Obra> obrasListModel;
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                .addGap(55, 55, 55)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(69, 69, 69)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -136,12 +169,14 @@ public DefaultListModel<Obra> obrasListModel;
     private void windowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpened
        Gson gson = new Gson();
        obrasListModel = new DefaultListModel<Obra>();
+       //Leo el valor la info del json y relleno la lista con ella 
         try {
             JsonReader reader = new JsonReader(new FileReader(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\data\\obres.json"));
             obras = gson.fromJson(reader, LIST_OF_OBRA_TYPE);
             for (Obra o: obras) {
                 obrasListModel.addElement(o);
             }
+            //Setteo el listModel con los elementos de la lista
             lstImages.setModel(obrasListModel);
         }
         catch (FileNotFoundException fnfe) {
@@ -166,6 +201,36 @@ public DefaultListModel<Obra> obrasListModel;
         DeleteImageMenu deleteImageMenu = new DeleteImageMenu(this, true);
         deleteImageMenu.setVisible(true);
     }//GEN-LAST:event_mniDeleteActionPerformed
+
+    private void mniSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSaveActionPerformed
+        obrasListModel.clear();
+        //Escribo la informacion en el Json
+        try (Writer writer = new FileWriter(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\data\\obres.json")) {
+            
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(obras, writer);
+        
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        
+        for (Obra o: obras) {
+                obrasListModel.addElement(o);
+            }
+            lstImages.setModel(obrasListModel);
+    }//GEN-LAST:event_mniSaveActionPerformed
+//Hace lo mismo que el metodo de arriba pero cierra la aplicacion
+    private void mniSaveAndExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSaveAndExitActionPerformed
+        try (Writer writer = new FileWriter(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\data\\obres.json")) {
+            
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(obras, writer);
+        
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        dispose();
+    }//GEN-LAST:event_mniSaveAndExitActionPerformed
 
     private void lstImagesValueChanged(javax.swing.event.ListSelectionEvent evt){
         
@@ -211,12 +276,14 @@ public DefaultListModel<Obra> obrasListModel;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mniCreate;
     private javax.swing.JMenuItem mniDelete;
-    private javax.swing.JMenuItem mniReview;
+    private javax.swing.JMenuItem mniSave;
+    private javax.swing.JMenuItem mniSaveAndExit;
     private javax.swing.JMenuItem mniUpdate;
     private javax.swing.JMenuBar mnuMainForm;
     // End of variables declaration//GEN-END:variables

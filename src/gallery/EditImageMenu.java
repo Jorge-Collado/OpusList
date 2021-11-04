@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -41,7 +42,7 @@ private String imageName;
 
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblRegistro = new javax.swing.JLabel();
         txtRegistro = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         txtTitulo = new javax.swing.JTextField();
@@ -66,7 +67,7 @@ private String imageName;
             }
         });
 
-        jLabel1.setText("Registro de la imagen a editar");
+        lblRegistro.setText("Registro de la imagen a editar");
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -113,7 +114,7 @@ private String imageName;
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTitulo)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(txtFormato, javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +139,7 @@ private String imageName;
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
-                .addComponent(jLabel1)
+                .addComponent(lblRegistro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,6 +179,8 @@ private String imageName;
                    txtFormato.setText(o.getFormat());
                    txtAutor.setText(o.getAutor());
                    MostrarComponentes(modoEdicion);
+               }else{
+                   lblRegistro.setText("El número de registro no exite");
                }
            }
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -199,6 +202,8 @@ private String imageName;
 
     private void btnEscogerImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscogerImagenActionPerformed
         fileChooser = new JFileChooser();
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
         int returnOption = fileChooser.showOpenDialog(this);
         if (returnOption == JFileChooser.APPROVE_OPTION){
             imagePath = fileChooser.getSelectedFile().getAbsolutePath();
@@ -207,6 +212,7 @@ private String imageName;
     }//GEN-LAST:event_btnEscogerImagenActionPerformed
 
     private void btnGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCambiosActionPerformed
+        mf.obrasListModel.clear();
         for (Obra o : mf.obras){
                if(o.getRegistre().equals(txtRegistro.getText())){
                    try{
@@ -223,12 +229,15 @@ private String imageName;
                        ioe.printStackTrace();
                    }
                }
+               mf.obrasListModel.addElement(o);
         }
+        mf.lstImages.setModel(mf.obrasListModel);
         dispose();
     }//GEN-LAST:event_btnGuardarCambiosActionPerformed
 
     private void MostrarComponentes(boolean modoEdicion){
         if (modoEdicion) {
+            txtRegistro.setText("Registro de la imagen a editar");
             txtTitulo.setVisible(true);
             txtYear.setVisible(true);
             txtFormato.setVisible(true);
@@ -288,11 +297,11 @@ private String imageName;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEscogerImagen;
     private javax.swing.JButton btnGuardarCambios;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblAutor;
     private javax.swing.JLabel lblFormato;
+    private javax.swing.JLabel lblRegistro;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblYear;
     private javax.swing.JTextField txtAutor;
