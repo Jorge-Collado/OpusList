@@ -26,6 +26,7 @@ public class MainForm extends javax.swing.JFrame {
 private static final java.lang.reflect.Type LIST_OF_OBRA_TYPE = new TypeToken<List<Obra>>() {}.getType();
 ArrayList<Obra> obras = new ArrayList();
 public JList<Obra> lstImages;
+public DefaultListModel<Obra> obrasListModel;
 
 
     /**
@@ -78,6 +79,11 @@ public JList<Obra> lstImages;
         jMenu1.setText("CRUD");
 
         mniCreate.setText("Create");
+        mniCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniCreateActionPerformed(evt);
+            }
+        });
         jMenu1.add(mniCreate);
 
         mniReview.setText("Review");
@@ -92,6 +98,11 @@ public JList<Obra> lstImages;
         jMenu1.add(mniUpdate);
 
         mniDelete.setText("Delete");
+        mniDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniDeleteActionPerformed(evt);
+            }
+        });
         jMenu1.add(mniDelete);
 
         mnuMainForm.add(jMenu1);
@@ -124,7 +135,7 @@ public JList<Obra> lstImages;
     
     private void windowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpened
        Gson gson = new Gson();
-       DefaultListModel<Obra> obrasListModel = new DefaultListModel<Obra>();
+       obrasListModel = new DefaultListModel<Obra>();
         try {
             JsonReader reader = new JsonReader(new FileReader(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\data\\obres.json"));
             obras = gson.fromJson(reader, LIST_OF_OBRA_TYPE);
@@ -145,6 +156,16 @@ public JList<Obra> lstImages;
         preEditImage.setVisible(true);
         
     }//GEN-LAST:event_mniUpdateActionPerformed
+
+    private void mniCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCreateActionPerformed
+        InsertImageMenu insertImageMenu = new InsertImageMenu(this, true);
+        insertImageMenu.setVisible(true);
+    }//GEN-LAST:event_mniCreateActionPerformed
+
+    private void mniDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDeleteActionPerformed
+        DeleteImageMenu deleteImageMenu = new DeleteImageMenu(this, true);
+        deleteImageMenu.setVisible(true);
+    }//GEN-LAST:event_mniDeleteActionPerformed
 
     private void lstImagesValueChanged(javax.swing.event.ListSelectionEvent evt){
         

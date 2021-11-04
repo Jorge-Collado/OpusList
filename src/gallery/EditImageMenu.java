@@ -198,7 +198,7 @@ private String imageName;
     }//GEN-LAST:event_WindowOpened
 
     private void btnEscogerImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscogerImagenActionPerformed
-          fileChooser = new JFileChooser();
+        fileChooser = new JFileChooser();
         int returnOption = fileChooser.showOpenDialog(this);
         if (returnOption == JFileChooser.APPROVE_OPTION){
             imagePath = fileChooser.getSelectedFile().getAbsolutePath();
@@ -224,6 +224,7 @@ private String imageName;
                    }
                }
         }
+        dispose();
     }//GEN-LAST:event_btnGuardarCambiosActionPerformed
 
     private void MostrarComponentes(boolean modoEdicion){

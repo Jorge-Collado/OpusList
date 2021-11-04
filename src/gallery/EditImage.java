@@ -180,13 +180,6 @@ private final MainForm mainForm = (MainForm) this.getParent();
         }
         
         
-        /*
-        txtRegistre.setText(mainForm.obraSplitted[0]);
-        txtTitulo.setText(mainForm.obraSplitted[1]);
-        txtYear.setText(mainForm.obraSplitted[2]);
-        txtFormat.setText(mainForm.obraSplitted[3]);
-        txtAutor.setText(mainForm.obraSplitted[4]);
-      */
     }//GEN-LAST:event_windowOpened
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
