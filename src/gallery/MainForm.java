@@ -9,12 +9,14 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.UIManager;
 
 /**
  *
@@ -23,8 +25,8 @@ import javax.swing.JList;
 public class MainForm extends javax.swing.JFrame {
 private static final java.lang.reflect.Type LIST_OF_OBRA_TYPE = new TypeToken<List<Obra>>() {}.getType();
 ArrayList<Obra> obras = new ArrayList();
-String[] obraSplitted;
-private JList<Obra> lstImages;
+public JList<Obra> lstImages;
+
 
     /**
      * Creates new form MainForm
@@ -38,8 +40,15 @@ private JList<Obra> lstImages;
                 lstImagesValueChanged(evt);
             }
         });
+        lstImages.addMouseListener(new java.awt.event.MouseAdapter(){
+            public void mouseClicked(java.awt.event.MouseEvent evt){
+                lstImagesMouseClicked(evt);
+            }
+        });
 
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,6 +84,11 @@ private JList<Obra> lstImages;
         jMenu1.add(mniReview);
 
         mniUpdate.setText("Update");
+        mniUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniUpdateActionPerformed(evt);
+            }
+        });
         jMenu1.add(mniUpdate);
 
         mniDelete.setText("Delete");
@@ -126,12 +140,21 @@ private JList<Obra> lstImages;
        
     }//GEN-LAST:event_windowOpened
 
+    private void mniUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniUpdateActionPerformed
+        EditImageMenu preEditImage = new EditImageMenu(this, true);
+        preEditImage.setVisible(true);
+        
+    }//GEN-LAST:event_mniUpdateActionPerformed
+
     private void lstImagesValueChanged(javax.swing.event.ListSelectionEvent evt){
         
     }
     
-    private void lstImagesMouseListener(javax.swing.event.MouseInputListener evt){
-       
+    private void lstImagesMouseClicked(java.awt.event.MouseEvent evt){
+        if (evt.getClickCount() == 2) {
+            EditImage editImage = new EditImage(this, true);
+            editImage.setVisible(true);
+        }
     }
     
     /**
@@ -144,12 +167,7 @@ private JList<Obra> lstImages;
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -166,6 +184,7 @@ private JList<Obra> lstImages;
             public void run() {
                 new MainForm().setVisible(true);
             }
+            
         });
     }
 

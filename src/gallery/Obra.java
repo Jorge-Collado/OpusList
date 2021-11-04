@@ -50,11 +50,20 @@ public class Obra {
         this.autor = autor;
     }
     
+    public String getImatge(){
+        return imatge;
+    }
+    
+    public void setImatge(String imatge){
+        this.imatge = imatge;
+    }
+    
     private String registre;
     private String titol;
     private String any;
     private String format;
     private String autor;
+    private String imatge;
 
     @Override
     public String toString() {

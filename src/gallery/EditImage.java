@@ -4,8 +4,13 @@
  */
 package gallery;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -36,6 +41,12 @@ private final MainForm mainForm = (MainForm) this.getParent();
         txtAutor = new javax.swing.JTextField();
         txtYear = new javax.swing.JTextField();
         txtFormat = new javax.swing.JTextField();
+        lblRegistre = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
+        lblAutor = new javax.swing.JLabel();
+        lblYear = new javax.swing.JLabel();
+        lblFormat = new javax.swing.JLabel();
+        btnSaveChanges = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -61,41 +72,84 @@ private final MainForm mainForm = (MainForm) this.getParent();
 
         txtFormat.setText("jTextField1");
 
+        lblRegistre.setText("Registro");
+
+        lblTitulo.setText("Titulo");
+
+        lblAutor.setText("Autor");
+
+        lblYear.setText("Año");
+
+        lblFormat.setText("Formato");
+
+        btnSaveChanges.setText("Guardar los cambios");
+        btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveChangesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtFormat, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(txtTitulo)
-                    .addComponent(txtRegistre)
-                    .addComponent(txtAutor)
-                    .addComponent(txtYear))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblRegistre, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtFormat, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                                .addComponent(txtTitulo)
+                                .addComponent(txtRegistre)
+                                .addComponent(txtAutor)
+                                .addComponent(txtYear))
+                            .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblYear, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFormat, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(93, 93, 93)
+                                .addComponent(btnSaveChanges, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(36, 36, 36))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(lblRegistre)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
                         .addComponent(txtRegistre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
+                        .addGap(23, 23, 23)
+                        .addComponent(lblTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71)
+                        .addGap(31, 31, 31)
+                        .addComponent(lblAutor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(69, 69, 69)
-                        .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtFormat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+                        .addGap(36, 36, 36)
+                        .addComponent(lblYear)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(lblFormat)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFormat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addComponent(btnSaveChanges)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,13 +160,25 @@ private final MainForm mainForm = (MainForm) this.getParent();
     }//GEN-LAST:event_txtRegistreActionPerformed
 
     private void windowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpened
-        Obra o = mainForm.obras.get(1);
         
-        txtRegistre.setText(o.getRegistre());
-        txtTitulo.setText(o.getTitol());
-        txtYear.setText(o.getAny());
-        txtFormat.setText(o.getFormat());
-        txtAutor.setText(o.getAutor());
+        try{
+        for( Obra o : mainForm.obras){
+            if (o.getRegistre() == mainForm.lstImages.getSelectedValue().getRegistre()) {
+                txtRegistre.setText(o.getRegistre());
+                txtTitulo.setText(o.getTitol());
+                txtYear.setText(o.getAny());
+                txtFormat.setText(o.getFormat());
+                txtAutor.setText(o.getAutor());
+                BufferedImage bf = ImageIO.read(new File(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\" + o.getImatge()));
+                ImageIcon icon = new ImageIcon(bf);
+                lblImage.setIcon(icon);
+                
+            }
+        }
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        
         
         /*
         txtRegistre.setText(mainForm.obraSplitted[0]);
@@ -122,6 +188,15 @@ private final MainForm mainForm = (MainForm) this.getParent();
         txtAutor.setText(mainForm.obraSplitted[4]);
       */
     }//GEN-LAST:event_windowOpened
+
+    private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
+        mainForm.lstImages.getSelectedValue().setRegistre(txtRegistre.getText());
+        mainForm.lstImages.getSelectedValue().setTitol(txtTitulo.getText());
+        mainForm.lstImages.getSelectedValue().setAny(txtYear.getText());
+        mainForm.lstImages.getSelectedValue().setFormat(txtFormat.getText());
+        mainForm.lstImages.getSelectedValue().setAutor(txtAutor.getText());
+        dispose();
+    }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,7 +242,13 @@ private final MainForm mainForm = (MainForm) this.getParent();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSaveChanges;
+    private javax.swing.JLabel lblAutor;
+    private javax.swing.JLabel lblFormat;
     private javax.swing.JLabel lblImage;
+    private javax.swing.JLabel lblRegistre;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblYear;
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtFormat;
     private javax.swing.JTextField txtRegistre;
