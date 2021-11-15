@@ -159,7 +159,7 @@ private final MainForm mainForm = (MainForm) this.getParent();
     }//GEN-LAST:event_txtRegistreActionPerformed
 
     private void windowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpened
-        
+        txtRegistre.setEditable(false);
         try{
         for( Obra o : mainForm.obras){
             if (o.getRegistre() == mainForm.lstImages.getSelectedValue().getRegistre()) {
@@ -170,7 +170,7 @@ private final MainForm mainForm = (MainForm) this.getParent();
                 txtAutor.setText(o.getAutor());
                 BufferedImage bf = ImageIO.read(new File(System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\" + o.getImatge()));
                 lblImage.setIcon(resizeImageIcon(bf, lblImage.getWidth(), lblImage.getHeight()));
-                
+
             }
         }
         }catch(IOException ioe){

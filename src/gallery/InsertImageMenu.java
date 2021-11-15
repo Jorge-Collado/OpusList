@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -20,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class InsertImageMenu extends javax.swing.JDialog {
 private final MainForm mainForm = (MainForm) this.getParent();
 private JFileChooser fileChooser;
-private String imagePath = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\TaBien.jpg";
+private String imagePath = System.getProperty("user.home") + "\\Documents\\MEGA\\segundo\\Diseño de interfaces\\UD2\\Galeria\\src\\imagenes\\TaBien.jpg";
 private String imageName;
     /**
      * Creates new form InsertImageMenu
@@ -197,7 +198,6 @@ private String imageName;
         }catch(IOException ioe){
             ioe.printStackTrace();
         }
-        
         
         mainForm.obras.add(o);
         
