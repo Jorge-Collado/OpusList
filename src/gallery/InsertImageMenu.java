@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class InsertImageMenu extends javax.swing.JDialog {
 private final MainForm mainForm = (MainForm) this.getParent();
 private JFileChooser fileChooser;
-private String imagePath = System.getProperty("user.home") + "\\Documents\\MEGA\\segundo\\Diseño de interfaces\\UD2\\Galeria\\src\\imagenes\\TaBien.jpg";
+private String imagePath = "src\\imagenes\\TaBien.jpg";
 private String imageName;
     /**
      * Creates new form InsertImageMenu
