@@ -237,7 +237,6 @@ private String imageName;
 
     private void MostrarComponentes(boolean modoEdicion){
         if (modoEdicion) {
-            txtRegistro.setText("Registro de la imagen a editar");
             txtTitulo.setVisible(true);
             txtYear.setVisible(true);
             txtFormato.setVisible(true);
