@@ -179,8 +179,6 @@ private String imageName;
                    txtFormato.setText(o.getFormat());
                    txtAutor.setText(o.getAutor());
                    MostrarComponentes(modoEdicion);
-               }else{
-                   lblRegistro.setText("El número de registro no exite");
                }
            }
     }//GEN-LAST:event_btnBuscarActionPerformed
